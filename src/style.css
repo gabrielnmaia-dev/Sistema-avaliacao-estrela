@@ -1,55 +1,247 @@
+/* ==========================================================
+   (style.css) — direção A: cliente HTTP / terminal
+
+   A paleta NÃO é decorativa: cada cor vem da semantica do
+   status code. 2xx sucesso, 3xx redirecionamento,
+   4xx erro do cliente, 5xx erro do servidor.
+
+   No Bootstrap isso é só uma variavel: --bs-body-font-family.
+   Trocar ela faz o site inteiro adotar a fonte.
+   ========================================================== */
+
+:root {
+    --fonte: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+    /* semantica HTTP */
+    --c-2xx: #4ade80;
+    --c-3xx: #60a5fa;
+    --c-4xx: #fbbf24;
+    --c-5xx: #f87171;
+
+    /* superficie de terminal */
+    --fundo: #0a0a0b;
+    --superficie: #131316;
+    --linha: #26262b;
+    --texto: #d4d4d8;
+    --fraco: #6b6b73;
+    --dourado: #ffc107;
+
+    --bs-body-font-family: var(--fonte);
+    --bs-border-radius: 0;
+    --bs-body-bg: var(--fundo);
+    --bs-body-color: var(--texto);
+}
+
 body {
-    background-color: black;
-    color: white;
+    background: var(--fundo);
+    color: var(--texto);
+    padding: 2.5rem 0 3rem;
+}
+
+/* ---------- cabecalho ---------- */
+
+.cabecalho {
+    margin-bottom: 2.5rem;
+}
+
+.prompt {
+    font-size: 0.8rem;
+    color: var(--fraco);
+    margin: 0 0 0.75rem;
+}
+
+.prompt .sinal {
+    color: var(--c-2xx);
+    font-weight: 700;
+}
+
+.prompt .alvo {
+    color: var(--c-3xx);
+}
+
+.titulo {
+    font-size: clamp(2rem, 7vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    margin: 0;
+    color: #fafafa;
+}
+
+/* o "_" do prompt piscando */
+.titulo .ponto {
+    color: var(--c-2xx);
+    animation: pisca 1.1s steps(1) infinite;
+}
+
+@keyframes pisca {
+    50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .titulo .ponto { animation: none; }
+}
+
+.subtitulo {
+    color: var(--fraco);
+    font-size: 0.85rem;
+    margin: 0.5rem 0 0;
 }
 
 
-.container {
+/* ---------- grade ----------
+   g-0 tira o respiro do .row porque quem separa os cards
+   e a borda de 1px, igual uma tabela de terminal. */
+.grade {
+    border: 1px solid var(--linha);
+}
+
+.grade > [class*="col-"] {
+    display: flex;
+}
+
+.celula-vazia {
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+}
+
+.rodape {
+    color: var(--fraco);
+    font-size: 0.8rem;
+    text-align: center;
+    margin: 0;
+    line-height: 1.8;
+}
+
+.rodape span {
+    color: #3f3f46;
+}
+
+
+/* ---------- o card: uma resposta HTTP ---------- */
+
+.resposta {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    width: 100%;
+    padding: 1.25rem 1.25rem 1rem;
+    background: var(--superficie);
+    border-right: 1px solid var(--linha);
+    border-bottom: 1px solid var(--linha);
+    transition: background 0.15s ease;
+}
 
+.resposta:hover {
+    background: #1a1a1f;
 }
-.card {
+
+/* a faixa de cor da faixa do status code */
+.resposta::before {
+    content: "";
+    display: block;
+    height: 2px;
+    margin: -1.25rem -1.25rem 1.1rem;
+}
+
+.f-2xx::before { background: var(--c-2xx); }
+.f-3xx::before { background: var(--c-3xx); }
+.f-4xx::before { background: var(--c-4xx); }
+.f-5xx::before { background: var(--c-5xx); }
+
+.topo {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
 }
+
+.codigo {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+.f-2xx .codigo { color: var(--c-2xx); }
+.f-3xx .codigo { color: var(--c-3xx); }
+.f-4xx .codigo { color: var(--c-4xx); }
+.f-5xx .codigo { color: var(--c-5xx); }
+
+.frase {
+    font-size: 0.8rem;
+    color: var(--fraco);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.foto {
+    /* As fotos sao 750x600 (5:4). Usar `height` fixa cortava mais da
+       metade da imagem; `aspect-ratio` mantem a proporcao nativa e
+       o objeto ainda preenche o box se alguma foto divergir. */
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    object-fit: cover;
+    display: block;
+    border: 1px solid var(--linha);
+    margin-bottom: 0.9rem;
+}
+
+.descricao {
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--fraco);
+    margin: 0 0 1rem;
+    flex: 1;
+}
+
+.descricao code {
+    color: var(--c-3xx);
+    font-size: 0.9em;
+}
+
+
+/* ---------- estrelas ---------- */
 
 .estrelas {
     display: flex;
     flex-direction: row-reverse;
-    justify-content: center;
-    gap: 5px;
-
+    justify-content: flex-end;
+    gap: 0.1rem;
+    font-size: 1.4rem;
+    line-height: 1;
+    border: 0;
+    padding: 0;
+    margin: 0;
 }
 
 .estrelas input[type="radio"] {
     position: absolute;
     opacity: 0;
+    pointer-events: none;
 }
 
-label:hover,
-label:hover ~ label {
-    color: gold;
+.estrelas label {
+    color: #33333a;
+    cursor: pointer;
+    padding: 0.1rem;
+    transition: color 0.12s ease, transform 0.12s ease;
 }
 
-input:checked ~ label {
-    color: gold;
+.estrelas label::before {
+    content: "\2605";
 }
 
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-    border: 0;
+.estrelas label:hover,
+.estrelas label:hover ~ label {
+    color: var(--dourado);
+    transform: scale(1.15);
 }
 
-label::before {
-    content: "★";
+.estrelas input:checked ~ label {
+    color: var(--dourado);
+}
+
+.estrelas:focus-within {
+    outline: 1px solid var(--dourado);
+    outline-offset: 3px;
 }
