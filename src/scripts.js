@@ -1,13 +1,4 @@
-/* ==========================================================
-   (scripts.js) — efeitos nas estrelas. Sem build, sem lib.
 
-   1. hover em cascata   — cada estrela acende 35ms depois da anterior
-   2. pulso ao confirmar — um scale unico na estrela clicada
-   3. lembra a nota      — localStorage, sobrevive ao F5
-
-   Os tres dependem so do HTML que ja existe. Se o JS nao
-   carregar, a pagina continua funcionando, so sem efeito.
-   ========================================================== */
 
 const REDUZIR = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const CHAVE = 'gato:nota';
@@ -46,7 +37,6 @@ document.querySelectorAll('.estrelas').forEach((campo) => {
         labels.forEach((label) => label.classList.remove('ativa'));
     });
 
-    // 2 + 3
     campo.addEventListener('change', (ev) => {
         // 2. o pulso
         labels.forEach((label) => label.classList.add('confirmada'));
