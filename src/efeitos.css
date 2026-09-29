@@ -35,3 +35,24 @@
         animation: none;
     }
 }
+
+
+/* ---------- agrupamento e busca ----------
+   Estas duas regras so podem existir aqui: `.escondido` e uma
+   classe que o scripts.js coloca no card, e sem JS ela nunca
+   aparece. E o `hidden` das secoes e da mensagem de "nada
+   encontrado" e atributo do HTML, ganho pelo reboot do
+   Bootstrap — se o JS falhar no meio, o estado fica coerente
+   com o que ja foi aplicado. */
+
+.escondido {
+    display: none;
+}
+
+.sem-resultado {
+    margin: 0;
+    padding: 2.5rem 0;
+    color: var(--fraco);
+    font-size: 0.85rem;
+    text-align: center;
+}

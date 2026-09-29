@@ -88,6 +88,133 @@ body {
 }
 
 
+/* ---------- busca ----------
+   Campo sem caixa: no terminal nao existe borda em volta do que
+   voce digita, so o cursor. A linha de baixo e a moldura. */
+.busca {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid var(--linha);
+}
+
+.busca:focus-within {
+    border-bottom-color: var(--dourado);
+}
+
+/* o mesmo "$" do prompt do cabecalho */
+.busca-sinal {
+    color: var(--c-2xx);
+    font-weight: 700;
+}
+
+.busca-campo {
+    flex: 1;
+    /* input e flex item nao encolhe por padrao; sem min-width:0 o
+       campo empurra a dica para fora da tela no celular */
+    min-width: 0;
+    background: transparent;
+    border: 0;
+    color: var(--texto);
+    font: inherit; /* herda o JetBrains Mono definido no body */
+    font-size: 0.9rem;
+    padding: 0.25rem 0;
+}
+
+.busca-campo::placeholder {
+    color: var(--fraco);
+}
+
+.busca-campo:focus {
+    outline: 0; /* o foco ja e sinalizado pela moldura acima */
+    color: #fafafa;
+}
+
+/* o X de limpar que o navegador desenha e preto num tema escuro */
+.busca-campo::-webkit-search-cancel-button {
+    filter: invert(0.6);
+}
+
+.busca-dica {
+    color: var(--fraco);
+    font-size: 0.72rem;
+    white-space: nowrap;
+}
+
+.busca-dica kbd {
+    font: inherit;
+    color: var(--texto);
+    border: 1px solid var(--linha);
+    border-radius: 2px;
+    padding: 0 0.3rem;
+}
+
+@media (max-width: 575.98px) {
+    .busca-dica {
+        display: none;
+    }
+}
+
+
+/* ---------- secao por familia ----------
+   O titulo fica fora do quadro: a moldura da grade so emoldura os
+   cards, entao o bloco inteiro nao vira um bloco so. */
+.secao + .secao {
+    margin-top: 2rem;
+}
+
+.secao-topo {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 0.7rem;
+}
+
+.secao-titulo {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* a familia repete a cor semantica e a barrinha do card */
+.familia {
+    color: var(--texto);
+}
+
+.familia::before {
+    content: "";
+    display: inline-block;
+    width: 1.4rem;
+    height: 2px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+    background: currentColor;
+}
+
+.secao[data-familia="2xx"] .familia { color: var(--c-2xx); }
+.secao[data-familia="3xx"] .familia { color: var(--c-3xx); }
+.secao[data-familia="4xx"] .familia { color: var(--c-4xx); }
+.secao[data-familia="5xx"] .familia { color: var(--c-5xx); }
+
+.familia-nome {
+    margin-left: 0.45rem;
+    font-weight: 400;
+    color: var(--fraco);
+}
+
+.familia-total {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--fraco);
+    /* os numeros nao dancam de largura quando a contagem muda */
+    font-variant-numeric: tabular-nums;
+}
+
+
 /* ---------- grade ----------
    g-0 tira o respiro do .row porque quem separa os cards
    e a borda de 1px, igual uma tabela de terminal. */
@@ -97,6 +224,23 @@ body {
 
 .grade > [class*="col-"] {
     display: flex;
+}
+
+/* A borda do .grade ja fecha o quadro. Sem estes cortes, a coluna da
+   direita e a ultima linha empilham 1px do card em cima de 1px do
+   container e a linha do canto sai do dobro das outras. */
+.grade > :last-child .resposta {
+    border-bottom: 0;
+}
+
+@media (min-width: 768px) {
+    .grade > :nth-child(2n) .resposta {
+        border-right: 0;
+    }
+
+    .grade > :nth-last-child(-n+2) .resposta {
+        border-bottom: 0;
+    }
 }
 
 .celula-vazia {
@@ -175,9 +319,9 @@ body {
 }
 
 .foto {
-    /* As fotos sao 750x600 (5:4). Usar `height` fixa cortava mais da
-       metade da imagem; `aspect-ratio` mantem a proporcao nativa e
-       o objeto ainda preenche o box se alguma foto divergir. */
+    /* Todas as fotos estao em 5:4, entao o box tem a mesma proporcao
+       e o `object-fit` nunca precisa cortar nada. `aspect-ratio` no
+       lugar de `height` fixa era o que segurava a altura do card. */
     width: 100%;
     aspect-ratio: 5 / 4;
     object-fit: cover;
