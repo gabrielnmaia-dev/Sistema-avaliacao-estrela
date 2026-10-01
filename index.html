@@ -41,12 +41,16 @@
         <!-- (lista) O HTML entrega os cards numa lista plana, na ordem
              em que eles foram aparecendo. Quem cria as secoes por
              familia e quem escolhe a ordem e o scripts.js: sem JS,
-             todos os gatos continuam visiveis, so que sem agrupar. -->
+             todos os gatos continuam visiveis, so que sem agrupar.
+
+             Cada card esta dentro de uma div com a classe `celula`.
+             E nela que o scripts.js poe a classe `escondido` quando a
+             busca nao acha o gato. -->
         <div id="lista">
             <div class="row g-0 grade">
 
                 <!-- 5xx = erro do servidor = vermelho -->
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 celula">
                     <article class="resposta f-5xx">
                         <div class="topo">
                             <span class="codigo">510</span>
@@ -71,7 +75,7 @@
                 </div>
 
                 <!-- 4xx = erro do cliente = âmbar -->
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 celula">
                     <article class="resposta f-4xx">
                         <div class="topo">
                             <span class="codigo">409</span>
@@ -95,7 +99,7 @@
                     </article>
                 </div>
 
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 celula">
                     <article class="resposta f-4xx">
                         <div class="topo">
                             <span class="codigo">415</span>
@@ -119,7 +123,7 @@
                     </article>
                 </div>
 
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 celula">
                     <article class="resposta f-4xx">
                         <div class="topo">
                             <span class="codigo">417</span>
@@ -142,7 +146,7 @@
                         </fieldset>
                     </article>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 celula">
                     <article class="resposta f-4xx">
                         <div class="topo">
                             <span class="codigo">412</span>
@@ -166,7 +170,7 @@
                     </article>
                 </div>
                 <!-- 3xx = redirecionamento = azul -->
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 celula">
                     <article class="resposta f-3xx">
                         <div class="topo">
                             <span class="codigo">305</span>
@@ -192,7 +196,7 @@
 
 
                 <!-- 3xx = o recurso é o mesmo, só mudou de lugar = azul -->
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 celula">
                     <article class="resposta f-3xx">
                         <div class="topo">
                             <span class="codigo">304</span>
